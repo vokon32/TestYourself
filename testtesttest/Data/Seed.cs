@@ -59,8 +59,8 @@ namespace testtesttest.Data
                         {
                           Contain = "test Math1",
                           isCorrect = false,
-                          testId = 1 
-                          
+                          testId = 1
+
                         },
                         new Question()
                         {
@@ -85,4 +85,6 @@ namespace testtesttest.Data
                     context.SaveChanges();
                 }
             }
+        }
+    }
 }
