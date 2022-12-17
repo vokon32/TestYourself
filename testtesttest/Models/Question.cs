@@ -13,7 +13,7 @@ namespace testtesttest.Models
         [Key]
         public int Id { get; set; }
         public string Contain { get; set; }
-        public bool isCorrect { get; set; }
+        public bool? isCorrect { get; set; }
         [ForeignKey("Test")]
         public int testId { get; set; }
         public Test Test { get; set; }
