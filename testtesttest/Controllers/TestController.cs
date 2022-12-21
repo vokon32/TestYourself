@@ -1,26 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using testtesttest.Data;
+using testtesttest.Interfaces;
 using testtesttest.Models;
 
 namespace testtesttest.Controllers
 {
     public class TestController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ITestRepository _testRepository;
 
-        public TestController(ApplicationDbContext context)
+        public TestController(ITestRepository testRepository)
         {
-            _context = context;
+            _testRepository = testRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Test> tests = _context.Tests.ToList();
+            IEnumerable<Test> tests = await _testRepository.GetAll();
             return View(tests);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Test test = _context.Tests.FirstOrDefault(t => t.Id == id);
+            Test test = await _testRepository.GetByIdAsync(id);
             return View(test);
         }
     }
