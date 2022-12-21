@@ -17,5 +17,11 @@ namespace testtesttest.Controllers
             List<Test> tests = _context.Tests.ToList();
             return View(tests);
         }
+
+        public IActionResult Detail(int id)
+        {
+            Test test = _context.Tests.FirstOrDefault(t => t.Id == id);
+            return View(test);
+        }
     }
 }
