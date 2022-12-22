@@ -24,5 +24,22 @@ namespace testtesttest.Controllers
             Test test = await _testRepository.GetByIdAsync(id);
             return View(test);
         }
+
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Test test)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(test);
+            }
+            _testRepository.Add(test);
+            return RedirectToAction("Index");
+        }
     }
 }
