@@ -57,5 +57,59 @@ namespace testtesttest.Controllers
             }
             return View(testVM);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var test = await _testRepository.GetByIdAsync(id);
+            if (test == null) return View("Error");
+            var testVM = new EditTestViewModel
+            {
+                Title = test.Title,
+                Description = test.Description,
+                URL = test.Image,
+                TestCategory = test.TestCategory
+            };
+            return View(testVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int Id, EditTestViewModel testVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Failed to edit club");
+                return View("Edit",testVM);
+            }
+            var userTest = await _testRepository.GetByIdAsyncNoTracking(Id);
+            if (userTest != null)
+            {
+                try
+                {
+                    await _photoService.DeletePhotoAsync(userTest.Image);
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", "Could not delete photo");
+                    return View(testVM);
+                }
+                var photoResult = await _photoService.AddPhotoAsync(testVM.Image);
+
+                var test = new Test
+                {
+                    Id = Id,
+                    Title = testVM.Title,
+                    Description = testVM.Description,
+                    Image = photoResult.Url.ToString(),
+                    TestCategory = testVM.TestCategory
+                };
+                _testRepository.Update(test);
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(testVM);
+            }
+        }
     }
 }

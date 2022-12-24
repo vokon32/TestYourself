@@ -40,6 +40,11 @@ namespace testtesttest.Repository
             return await _context.Tests.FirstOrDefaultAsync(t => t.Id == id);
         }
 
+        public async Task<Test> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Tests.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
+        }
+
         public async Task<IEnumerable<Test>> GetTestByInterest(string interest)
         {
             return await _context.Tests.ToListAsync();
