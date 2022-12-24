@@ -2,6 +2,7 @@
 using testtesttest.Data;
 using testtesttest.Interfaces;
 using testtesttest.Models;
+using testtesttest.ViewModels;
 
 namespace testtesttest.Controllers
 {
@@ -9,9 +10,12 @@ namespace testtesttest.Controllers
     {
         private readonly ITestRepository _testRepository;
 
-        public TestController(ITestRepository testRepository)
+        private readonly IPhotoService _photoService;
+
+        public TestController(ITestRepository testRepository, IPhotoService photoService)
         {
             _testRepository = testRepository;
+            _photoService = photoService;
         }
         public async Task<IActionResult> Index()
         {
@@ -32,14 +36,26 @@ namespace testtesttest.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Test test)
+        public async Task<IActionResult> Create(CreateTestViewModel testVM)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(test);
+                var result = await _photoService.AddPhotoAsync(testVM.Image);
+                var test = new Test
+                {
+                    Title = testVM.Title,
+                    Description = testVM.Description,
+                    Image = result.Url.ToString(),
+                    TestCategory = testVM.TestCategory
+                };
+                _testRepository.Add(test);
+                return RedirectToAction("Index");
             }
-            _testRepository.Add(test);
-            return RedirectToAction("Index");
+            else
+            {
+                ModelState.AddModelError("","Photo upload failed");
+            }
+            return View(testVM);
         }
     }
 }
