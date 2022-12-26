@@ -87,7 +87,7 @@ namespace testtesttest.Controllers
                 {
                     await _photoService.DeletePhotoAsync(userTest.Image);
                 }
-                catch (Exception ex)
+                catch 
                 {
                     ModelState.AddModelError("", "Could not delete photo");
                     return View(testVM);
@@ -110,6 +110,23 @@ namespace testtesttest.Controllers
             {
                 return View(testVM);
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var testDetails = await _testRepository.GetByIdAsync(id);
+            if (testDetails == null) return View("Error");
+            return View(testDetails);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteTest(int id)
+        {
+            var testDetails = await _testRepository.GetByIdAsync(id);
+            if (testDetails == null) return View("Error");
+
+            _testRepository.Delete(testDetails);
+            return RedirectToAction("Index");
         }
     }
 }
