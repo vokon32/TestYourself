@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -7,12 +8,11 @@ using System.Threading.Tasks;
 
 namespace testtesttest.Models
 {
-    public class AppUser
+    public class AppUser : IdentityUser
     {
-        [Key]
-        public string Id { get; set; }
         public int? Pace { get; set; }
-        public int? Meliage { get; set; }
+        public int? Mileage { get; set; }
+        public ICollection<Test>? Tests { get; set; }
 
     }
 }
