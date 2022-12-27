@@ -11,11 +11,13 @@ namespace testtesttest.Controllers
         private readonly ITestRepository _testRepository;
 
         private readonly IPhotoService _photoService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TestController(ITestRepository testRepository, IPhotoService photoService)
+        public TestController(ITestRepository testRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
         {
             _testRepository = testRepository;
             _photoService = photoService;
+            _httpContextAccessor = httpContextAccessor;
         }
         public async Task<IActionResult> Index()
         {
@@ -32,7 +34,12 @@ namespace testtesttest.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            var curUserId = User.GetUserId();
+            var createTestViewModel = new CreateTestViewModel()
+            {
+                AppUserId = curUserId
+            };
+            return View(createTestViewModel);
         }
 
         [HttpPost]
@@ -46,7 +53,8 @@ namespace testtesttest.Controllers
                     Title = testVM.Title,
                     Description = testVM.Description,
                     Image = result.Url.ToString(),
-                    TestCategory = testVM.TestCategory
+                    TestCategory = testVM.TestCategory,
+                    AppUserId = testVM.AppUserId
                 };
                 _testRepository.Add(test);
                 return RedirectToAction("Index");
