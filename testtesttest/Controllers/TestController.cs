@@ -68,6 +68,7 @@ namespace testtesttest.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            var curUserId = User.GetUserId();
             var test = await _testRepository.GetByIdAsync(id);
             if (test == null) return View("Error");
             var testVM = new EditTestViewModel
@@ -75,9 +76,11 @@ namespace testtesttest.Controllers
                 Title = test.Title,
                 Description = test.Description,
                 URL = test.Image,
-                TestCategory = test.TestCategory
+                TestCategory = test.TestCategory,
+                AppUserId = curUserId
             };
             return View(testVM);
+
         }
 
         [HttpPost]
@@ -108,7 +111,8 @@ namespace testtesttest.Controllers
                     Title = testVM.Title,
                     Description = testVM.Description,
                     Image = photoResult.Url.ToString(),
-                    TestCategory = testVM.TestCategory
+                    TestCategory = testVM.TestCategory,
+                    AppUserId = testVM.AppUserId
                 };
                 _testRepository.Update(test);
 

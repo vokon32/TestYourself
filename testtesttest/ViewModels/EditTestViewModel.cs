@@ -10,5 +10,6 @@ namespace testtesttest.ViewModels
         public IFormFile Image { get; set; }
         public string? URL { get; set; }
         public TestCategory TestCategory { get; set; }
+        public string AppUserId { get; set; }
     }
 }
