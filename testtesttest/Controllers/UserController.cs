@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using testtesttest.Interfaces;
+using testtesttest.Models;
+using testtesttest.Repository;
 using testtesttest.ViewModels;
 
 namespace testtesttest.Controllers
@@ -24,11 +26,25 @@ namespace testtesttest.Controllers
                     Id = user.Id,
                     UserName = user.UserName,
                     Pace = user.Pace,
-                    Mileage = user.Mileage
+                    Mileage = user.Mileage,
+                    ImageUrl = user.ProfileImageUrl
                 };
                 result.Add(userViewModel);
             }
             return View(result);
+        }
+
+        public async Task<IActionResult> Detail(string id)
+        {
+            var user = await _userRepository.GetUserById(id);
+            var userDetailViewModel = new UserDetailViewModel()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Pace = user.Pace,
+                Mileage = user.Mileage,
+            };
+            return View(userDetailViewModel);
         }
     }
 }
