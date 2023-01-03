@@ -12,7 +12,7 @@ namespace testtesttest.Interfaces
         Task<IEnumerable<Test>> GetAll();
         Task<Test> GetByIdAsync(int id);
         Task<Test> GetByIdAsyncNoTracking(int id);
-        Task<IEnumerable<Test>> GetTestByInterest(string interest);
+        Task<IEnumerable<Test>> GetTestByCity(string city);
         bool Add(Test test);
         bool Update(Test test);
         bool Delete(Test test);

@@ -45,9 +45,9 @@ namespace testtesttest.Repository
             return await _context.Tests.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public async Task<IEnumerable<Test>> GetTestByInterest(string interest)
+        public async Task<IEnumerable<Test>> GetTestByCity(string city)
         {
-            return await _context.Tests.ToListAsync();
+            return await _context.Tests.Where(c => c.AppUser.City.Contains(city)).ToListAsync();
         }
 
         public bool Save()
