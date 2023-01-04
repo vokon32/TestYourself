@@ -12,6 +12,7 @@ namespace testtesttest.Models
         public int? questionsAmount { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
+        public double? Result { get; set; }
         public TestCategory TestCategory { get; set; }
         [ForeignKey("Questions")]
         public List<Question> Questions = new();

@@ -6,33 +6,32 @@
 }
 <div class="container">
 
-<!-- Portfolio Item Heading -->
-<h1 class="my-4">
-    Page Heading
-    <small>Secondary Text</small>
-</h1>
+    <!-- Portfolio Item Heading -->
+    <h1 class="my-4">
+        Page Heading
+        <small>Secondary Text</small>
+    </h1>
 
-<!-- Portfolio Item Row -->
-<div class="row">
+    <!-- Portfolio Item Row -->
+    <div class="row">
 
-    <div class="col-md-8">
-        <img class="img-fluid" src="@Model.Image" alt="">
+        <div class="col-md-8">
+            <img class="img-fluid" src="@Model.Image" alt="">
+        </div>
+
+        <div class="col-md-4">
+            <h3 class="my-3">@Model.Title</h3>
+            <p>@Model.Description</p>
+            <h3 class="my-3">@Model.TestCategory</h3>
+            <ul>
+                <li>@Model.questionsAmount</li>
+
+            </ul>
+        </div>
+
     </div>
-
-    <div class="col-md-4">
-        <h3 class="my-3">@Model.Title</h3>
-        <p>@Model.Description</p>
-        <h3 class="my-3">@Model.TestCategory</h3>
-        <ul>
-            <li>@Model.questionsAmount</li>
-            
-        </ul>
-    </div>
-
-</div>
-
-<div class="row justify-content-center">
-    <div class="col-lg-6 text-center mt-4">
-        <a type="submit" class="btn btn-success" >Start</a>
-    </div>
+    <form  method="post">
+        <input type="hidden" asp-for="Id" />
+        <input asp-action="Index" asp-controller="Question" type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+    </form>
 </div>

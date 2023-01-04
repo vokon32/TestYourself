@@ -30,7 +30,11 @@ namespace testtesttest.Controllers
             Test test = await _testRepository.GetByIdAsync(id);
             return View(test);
         }
-
+        [HttpPost, ActionName("Detail")]
+        public async Task<IActionResult> DetailCheck(int id )
+        {
+            return RedirectToAction("Index", "Question", id);
+        }
 
         public IActionResult Create()
         {
@@ -139,6 +143,11 @@ namespace testtesttest.Controllers
 
             _testRepository.Delete(testDetails);
             return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> TestResult(QuestionAnswerViewModel questionAnswerViewModel)
+        {
+            return View(questionAnswerViewModel);
         }
     }
 }
