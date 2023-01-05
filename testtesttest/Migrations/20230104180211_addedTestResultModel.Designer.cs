@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using testtesttest.Data;
 
@@ -11,9 +12,10 @@ using testtesttest.Data;
 namespace testtesttest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104180211_addedTestResultModel")]
+    partial class addedTestResultModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,9 +324,8 @@ namespace testtesttest.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("AppUserResult")
                         .HasColumnType("nvarchar(450)");
@@ -335,7 +336,7 @@ namespace testtesttest.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("Tests")
+                    b.Property<int?>("TestResult")
                         .HasColumnType("int");
 
                     b.Property<bool>("isPassed")
@@ -351,7 +352,7 @@ namespace testtesttest.Migrations
                     b.HasIndex("QuestionId")
                         .IsUnique();
 
-                    b.HasIndex("Tests");
+                    b.HasIndex("TestResult");
 
                     b.ToTable("TestResults");
                 });
@@ -441,7 +442,7 @@ namespace testtesttest.Migrations
 
                     b.HasOne("testtesttest.Models.Test", "Test")
                         .WithMany("TestResults")
-                        .HasForeignKey("Tests");
+                        .HasForeignKey("TestResult");
 
                     b.Navigation("AppUser");
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using CloudinaryDotNet;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using testtesttest.Models;
 
@@ -12,5 +13,7 @@ namespace testtesttest.Data
         }
         public DbSet<Test> Tests { get; set; }
         public DbSet<Question> Questions { get; set; }
+        public DbSet<TestResult> TestResults { get; set; }
+
     }
 }

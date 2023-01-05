@@ -44,6 +44,10 @@ namespace testtesttest.Repository
         {
             return await _context.Questions.AsNoTracking().Include(q=>q.Test).Where(t => t.testId == id).ToListAsync();
         }
+        public async Task<Question> GetFirstQuestion(int id)
+        {
+            return await _context.Questions.Include(q=>q.Test).Where(t=>t.Test.Id == id).FirstOrDefaultAsync();
+        }
         public async Task<Question> GetByIdAsyncNoTracking(int id)
         {
             return await _context.Questions.AsNoTracking().FirstOrDefaultAsync(q => q.Id == id);

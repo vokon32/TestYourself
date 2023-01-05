@@ -21,5 +21,6 @@ namespace testtesttest.Models
         [ForeignKey("Test")]
         public int testId { get; set; }
         public Test Test { get; set; }
+        public TestResult? TestResult { get; set; }
     }
 }

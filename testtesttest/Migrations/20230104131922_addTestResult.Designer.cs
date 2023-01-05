@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using testtesttest.Data;
 
@@ -11,9 +12,10 @@ using testtesttest.Data;
 namespace testtesttest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230104131922_addTestResult")]
+    partial class addTestResult
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -314,48 +316,6 @@ namespace testtesttest.Migrations
                     b.ToTable("Tests");
                 });
 
-            modelBuilder.Entity("testtesttest.Models.TestResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("AppUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AppUserResult")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double>("FinalScore")
-                        .HasColumnType("float");
-
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Tests")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("isPassed")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("testId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AppUserResult");
-
-                    b.HasIndex("QuestionId")
-                        .IsUnique();
-
-                    b.HasIndex("Tests");
-
-                    b.ToTable("TestResults");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -427,44 +387,9 @@ namespace testtesttest.Migrations
                     b.Navigation("AppUser");
                 });
 
-            modelBuilder.Entity("testtesttest.Models.TestResult", b =>
-                {
-                    b.HasOne("testtesttest.Models.AppUser", "AppUser")
-                        .WithMany("TestResults")
-                        .HasForeignKey("AppUserResult");
-
-                    b.HasOne("testtesttest.Models.Question", "Question")
-                        .WithOne("TestResult")
-                        .HasForeignKey("testtesttest.Models.TestResult", "QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("testtesttest.Models.Test", "Test")
-                        .WithMany("TestResults")
-                        .HasForeignKey("Tests");
-
-                    b.Navigation("AppUser");
-
-                    b.Navigation("Question");
-
-                    b.Navigation("Test");
-                });
-
             modelBuilder.Entity("testtesttest.Models.AppUser", b =>
                 {
-                    b.Navigation("TestResults");
-
                     b.Navigation("Tests");
-                });
-
-            modelBuilder.Entity("testtesttest.Models.Question", b =>
-                {
-                    b.Navigation("TestResult");
-                });
-
-            modelBuilder.Entity("testtesttest.Models.Test", b =>
-                {
-                    b.Navigation("TestResults");
                 });
 #pragma warning restore 612, 618
         }

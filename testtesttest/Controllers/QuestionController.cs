@@ -1,5 +1,4 @@
-﻿using AspNetCore;
-using CloudinaryDotNet.Actions;
+﻿using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
@@ -13,61 +12,83 @@ namespace testtesttest.Controllers
     public class QuestionController : Controller
     {
         private readonly IQuestionRepository _questionRepository;
-        private readonly ITestRepository _testRepository;
-        private static List<Question>? Questions;
-        private static int currentListIndex = 0;
+        private readonly ITestResultRepository _testRepository;
 
-        public QuestionController(IQuestionRepository questionRepository, ITestRepository testRepository)
+
+        public QuestionController(IQuestionRepository questionRepository, ITestResultRepository testRepository)
         {
             _questionRepository = questionRepository;
             _testRepository = testRepository;
         }
 
-
-        [HttpPost]
-
-        public async Task<IActionResult> Index(QuestionAnswerViewModel questionVM, int Id)
+        public async Task<IActionResult> Index(int id)
         {
-            if (questionVM.ChosenAnswer != null)
+            var curUserId = User.GetUserId();
+            var testResult = await _testRepository.GetByTestIdAndUserIdAsNoTracking(id, curUserId);
+            if (testResult != null)
             {
-                var check = await _questionRepository.GetByIdAsyncNoTracking(questionVM.Id);
-                if (check.CorrectAnswer.ToLower() == questionVM.ChosenAnswer.ToLower())
-                {
-                    questionVM.ResultScore++;
-                }
+                return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
             }
-            if (Questions == null)
+            
+            var question = await _questionRepository.GetFirstQuestion(id);
+            var questionVM = new QuestionAnswerViewModel()
             {
-                Questions = await _questionRepository.GetByTestId(Id);
-            }
-            if (currentListIndex != Questions.Count)
+                Id = question.Id,
+                Contain = question.Contain,
+                FirstAnswer = question.FirstAnswer,
+                SecondAnswer = question.SecondAnswer,
+                CorrectAnswer = question.CorrectAnswer,
+                testId = id,
+                CurrentIndex = 0
+            };
+            return View(questionVM);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Index(QuestionAnswerViewModel questionVM)
+        {
+            questionVM.Questions = await _questionRepository.GetByTestId(questionVM.testId);
+            
+            if (questionVM.CurrentIndex == questionVM.Questions.Count()-1)
             {
-
-                var question = Questions[currentListIndex];
-                currentListIndex++;
-                var nextQuestionVM = new QuestionAnswerViewModel()
+                var curUserId = User.GetUserId();
+                var testResult = new TestResult()
                 {
-                    Id = question.Id,
-                    FirstAnswer = question.FirstAnswer,
-                    SecondAnswer = question.SecondAnswer,
-                    CorrectAnswer = question.CorrectAnswer,
-                    Contain = question.Contain,
-                    isCorrect = question.isCorrect,
-                    testId = question.testId,
-                    ResultScore = questionVM.ResultScore
+                    testId = questionVM.testId,
+                    AppUserId = curUserId.ToString(),
+                    FinalScore = 100 / questionVM.Questions.Count() * questionVM.ResultScore,
+                    isPassed = true,
+                    QuestionId = questionVM.Id
                 };
-                return View("Index", nextQuestionVM);
+                _testRepository.Add(testResult);
+                return RedirectToAction("Index", new RouteValueDictionary(new {Controller = "TestResult", Action = "Index", Id = testResult.Id }));
             }
-            else
+           
+            var check = _questionRepository.GetByIdAsyncNoTracking(questionVM.Id).Result.CorrectAnswer;
+            if (questionVM.ChosenAnswer == check)
             {
-                var test = await _testRepository.GetByIdAsyncNoTracking(Id);
-                questionVM.ResultScore = (100 / Questions.Count() * questionVM.ResultScore) + 1;
-                test.questionsAmount = Questions.Count();
-                test.Result = questionVM.ResultScore;
-                currentListIndex = 0;
-                Questions = null;
-                return RedirectToAction("TestResult", "Test", questionVM);
+                questionVM.ResultScore++;
             }
+            
+            questionVM.CurrentIndex++;
+            var question = questionVM.Questions[questionVM.CurrentIndex];
+            
+            var nextQuestionVM = new QuestionAnswerViewModel()
+            {
+                Id = question.Id,
+                Contain = question.Contain,
+                FirstAnswer = question.FirstAnswer,
+                SecondAnswer = question.SecondAnswer,
+                CorrectAnswer = question.CorrectAnswer,
+                testId = questionVM.testId,
+                ResultScore = questionVM.ResultScore,
+                CurrentIndex = questionVM.CurrentIndex
+            };
+           
+            if (questionVM.CurrentIndex == questionVM.Questions.Count() - 1)
+            {
+                nextQuestionVM.isCorrect = true;
+            }
+            return View(nextQuestionVM);
         }
     }
 }

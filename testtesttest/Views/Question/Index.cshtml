@@ -8,15 +8,24 @@
 <form method="post" asp-action="Index" asp-controller="Question" enctype="multipart/form-data">
     <h4>@Model.Contain</h4>
     <div class="form-group">
-        <input type="hidden" asp-for="testId" id="testId" name="testId" value="@Model.testId"/>
+        <input type="hidden" asp-for="testId" id="testId" name="testId" value="@Model.testId" />
         <input type="hidden" id="Id" name="Id" asp-for="@Model.Id" value="@Model.Id" />
         <input type="hidden" id="ResultScore" name="ResultScore" asp-for="@Model.ResultScore" value="@Model.ResultScore" />
+        <input type="hidden" id="CurrentIndex" name="CurrentIndex" asp-for="@Model.CurrentIndex" value="@Model.CurrentIndex" />
         <div class="form-check">
             <span>@Model.FirstAnswer</span> @Html.RadioButtonFor(m=> m.ChosenAnswer, "FirstAnswer")
         </div>
         <div class="form-group">
             <span>@Model.SecondAnswer</span> @Html.RadioButtonFor(m => m.ChosenAnswer, "SecondAnswer")
         </div>
+
+        @if (!Model.isCorrect)
+        {
             <input type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
+        }
+        else
+        {
+            <button type="submit" class="btn btn-primary">Finish the test</button>
+        }
     </div>
 </form>

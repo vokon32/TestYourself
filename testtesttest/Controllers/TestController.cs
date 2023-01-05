@@ -128,9 +128,9 @@ namespace testtesttest.Controllers
             }
         }
         [HttpGet]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int Id)
         {
-            var testDetails = await _testRepository.GetByIdAsync(id);
+            var testDetails = await _testRepository.GetByIdAsync(Id);
             if (testDetails == null) return View("Error");
             return View(testDetails);
         }
@@ -145,9 +145,5 @@ namespace testtesttest.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> TestResult(QuestionAnswerViewModel questionAnswerViewModel)
-        {
-            return View(questionAnswerViewModel);
-        }
     }
 }

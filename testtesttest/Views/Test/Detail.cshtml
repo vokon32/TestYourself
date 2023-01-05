@@ -24,14 +24,11 @@
             <p>@Model.Description</p>
             <h3 class="my-3">@Model.TestCategory</h3>
             <ul>
-                <li>@Model.questionsAmount</li>
+                <li>@Model.questionsAmount - questions</li>
 
             </ul>
         </div>
 
     </div>
-    <form  method="post">
-        <input type="hidden" asp-for="Id" />
-        <input asp-action="Index" asp-controller="Question" type="submit" value="Confirm" class="btn btn-danger float-right mt-3" />
-    </form>
+    <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Confirm</a>
 </div>

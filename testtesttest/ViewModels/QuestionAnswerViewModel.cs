@@ -17,7 +17,9 @@ namespace testtesttest.ViewModels
         public string? ChosenAnswer { get; set; }
         public string CorrectAnswer { get; set; }
         public int ResultScore { get; set; }
-        public bool? isCorrect { get; set; }
+        public List<Question>? Questions { get; set; }
+        public int CurrentIndex { get; set; }
+        public bool isCorrect { get; set; }
         [ForeignKey("Test")]
         public int testId { get; set; }
         public Test Test { get; set; }
