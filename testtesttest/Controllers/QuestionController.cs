@@ -22,12 +22,16 @@ namespace testtesttest.Controllers
 
         public async Task<IActionResult> Index(int id)
         {
-            var curUserId = User.GetUserId();
-            var testResult = await _testResultRepository.GetByTestIdAndUserIdAsNoTracking(id, curUserId);
-            if (testResult != null)
+            try
             {
-                return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
+                var curUserId = User.GetUserId();
+                var testResult = await _testResultRepository.GetByTestIdAndUserIdAsNoTracking(id, curUserId);
+                if (testResult != null)
+                {
+                    return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
+                }
             }
+            catch(Exception ex) { }
 
             var question = await _questionRepository.GetFirstQuestion(id);
             var questionVM = new QuestionAnswerViewModel()
@@ -55,16 +59,34 @@ namespace testtesttest.Controllers
 
             if (questionVM.CurrentIndex == questionVM.Questions.Count() - 1)
             {
-                var curUserId = User.GetUserId();
-                var testResult = new TestResult()
+                try
                 {
-                    testId = questionVM.testId,
-                    AppUserId = curUserId.ToString(),
-                    FinalScore = 100 / questionVM.Questions.Count() * questionVM.ResultScore,
-                    isPassed = true
-                };
-                _testResultRepository.Add(testResult);
-                return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
+                    var curUserId = User.GetUserId();
+                    var testResult = new TestResult()
+                    {
+                        testId = questionVM.testId,
+                        AppUserId = curUserId.ToString(),
+                        FinalScore = 100 / questionVM.Questions.Count() * questionVM.ResultScore,
+                        isPassed = true
+                    };
+                    _testResultRepository.Add(testResult);
+
+
+                    return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
+                }
+                catch
+                {
+                    var testResult = new TestResult()
+                    {
+                        testId = questionVM.testId,
+                        FinalScore = 100 / questionVM.Questions.Count() * questionVM.ResultScore,
+                        isPassed = true
+                    };
+                    _testResultRepository.Add(testResult);
+
+
+                    return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
+                }
             }
 
             questionVM.CurrentIndex++;
@@ -104,7 +126,7 @@ namespace testtesttest.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CreateQuestionVIewModel createQuestionVM)
         {
-            
+
             if (ModelState.IsValid)
             {
                 var question = new Question()
@@ -117,14 +139,14 @@ namespace testtesttest.Controllers
                 };
                 createQuestionVM.CurrentAmountOfQuestions++;
                 _questionRepository.Add(question);
-                
+
                 if (createQuestionVM.CurrentAmountOfQuestions >= MinimalAmountOfQuestions)
                 {
                     var test = await _testRepository.GetByIdAsyncNoTracking(createQuestionVM.testId);
                     test.questionsAmount = createQuestionVM.CurrentAmountOfQuestions;
                     _testRepository.Update(test);
                     createQuestionVM.isFull = true;
-                    
+
                 }
 
                 var nextCreateQuestionVM = new CreateQuestionVIewModel()

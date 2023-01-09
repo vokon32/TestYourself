@@ -23,8 +23,6 @@ namespace testtesttest.Controllers
         private void MapUserEdit(AppUser user, EditUserDashboardViewModel editVM, ImageUploadResult photoResult)
         {
             user.Id = editVM.Id;
-            user.Pace = editVM.Pace;
-            user.Mileage = editVM.Mileage;
             user.ProfileImageUrl = photoResult.Url.ToString();
             user.City = editVM.City;
             user.State = editVM.State;
@@ -47,8 +45,6 @@ namespace testtesttest.Controllers
             var editUserVM = new EditUserDashboardViewModel()
             {
                 Id = curUserId,
-                Pace = user.Pace,
-                Mileage = user.Mileage,
                 ProfileImageUrl = user.ProfileImageUrl,
                 City = user.City,
                 State = user.State

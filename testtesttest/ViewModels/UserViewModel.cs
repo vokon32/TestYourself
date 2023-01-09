@@ -10,8 +10,7 @@ namespace testtesttest.ViewModels
     {
         public string Id { get; set; }
         public string UserName { get; set; }
-        public int? Pace { get; set; }
-        public int? Mileage { get; set; }
+        public int? TestPassed { get; set; }
         public string? ImageUrl {get;set;}
     }
 }

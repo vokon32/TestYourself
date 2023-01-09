@@ -19,13 +19,18 @@
                     </div>
 
 
+                    <div class="row">
+                        <span>First Answer</span> 
+                    </div>
                     <div class="form-check">
-                        <span>First Answer <input asp-for="FirstAnswer"></input></span> @Html.RadioButtonFor(m=> m.ChosenAnswer, "FirstAnswer")
+                    <input asp-for="FirstAnswer"></input> @Html.RadioButtonFor(m=> m.ChosenAnswer, "FirstAnswer")
                     </div>
 
-
+                    <div class="row">
+                        <span>Second Answer</span>
+                    </div>
                     <div class="form-check">
-                        <span>Second Answer <input asp-for="SecondAnswer"></input></span> @Html.RadioButtonFor(m => m.ChosenAnswer, "SecondAnswer")
+                        <input asp-for="SecondAnswer"></input> @Html.RadioButtonFor(m => m.ChosenAnswer, "SecondAnswer")
                     </div>
 
                     <input type="submit" value="Add question" class="btn btn-danger float-right mt-3" />

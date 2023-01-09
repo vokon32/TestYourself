@@ -32,14 +32,17 @@ namespace testtesttest.Repository
 
         public async Task<IEnumerable<AppUser>> GetAllUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(u=>u.TestResults).ToListAsync();
         }
 
         public async Task<AppUser> GetUserById(string Id)
         {
             return await _context.Users.FindAsync(Id);
         }
-
+        public async Task<AppUser> GetUsersTestsResultById(string Id)
+        {
+            return await _context.Users.Include(u => u.TestResults).FirstAsync();
+        }
         public bool Save()
         {
             var saved = _context.SaveChanges();

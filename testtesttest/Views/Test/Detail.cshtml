@@ -8,8 +8,7 @@
 
     <!-- Portfolio Item Heading -->
     <h1 class="my-4">
-        Page Heading
-        <small>Secondary Text</small>
+        Information about Test
     </h1>
 
     <!-- Portfolio Item Row -->
@@ -30,14 +29,9 @@
         </div>
 
     </div>
-    @if (Model.isPassed)
-    {
-        <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">View Results</a>
-    }
-    else
-    {
-        <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Confirm</a>
-    }
+
+    <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Confirm</a>
+
     @if (Model.CanBePassedAgain && Model.isPassed)
     {
         <a type="button" asp-controller="TestResult" asp-action="Again" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Try again</a>

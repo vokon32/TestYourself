@@ -25,8 +25,7 @@ namespace testtesttest.Controllers
                 {
                     Id = user.Id,
                     UserName = user.UserName,
-                    Pace = user.Pace,
-                    Mileage = user.Mileage,
+                    TestPassed = user.TestResults.Count,
                     ImageUrl = user.ProfileImageUrl
                 };
                 result.Add(userViewModel);
@@ -40,9 +39,7 @@ namespace testtesttest.Controllers
             var userDetailViewModel = new UserDetailViewModel()
             {
                 Id = user.Id,
-                UserName = user.UserName,
-                Pace = user.Pace,
-                Mileage = user.Mileage,
+                UserName = user.UserName
             };
             return View(userDetailViewModel);
         }

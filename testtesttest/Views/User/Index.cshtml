@@ -36,10 +36,9 @@
                                 </td>
 
                                 @{
-                                    var mileage = user.Mileage == null ? "?" : user.Mileage.ToString();
-                                    var pace = user.Pace == null ? "?" : user.Mileage.ToString();
+                                    var tests = user.TestPassed == null ? "?" : user.TestPassed.ToString();
                                 }
-                                <td>@mileage mile at @pace mph</td>
+                                <td>@tests tests passed</td>
                             </tr>
                             <tr class="table-divider">
                                 <th></th>
