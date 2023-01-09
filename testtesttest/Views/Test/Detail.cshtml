@@ -30,5 +30,16 @@
         </div>
 
     </div>
-    <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Confirm</a>
+    @if (Model.isPassed)
+    {
+        <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">View Results</a>
+    }
+    else
+    {
+        <a type="button" asp-controller="Question" asp-action="Index" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Confirm</a>
+    }
+    @if (Model.CanBePassedAgain && Model.isPassed)
+    {
+        <a type="button" asp-controller="TestResult" asp-action="Again" asp-route-id="@Model.Id" class="btn btn-danger float-right mt-3">Try again</a>
+    }
 </div>

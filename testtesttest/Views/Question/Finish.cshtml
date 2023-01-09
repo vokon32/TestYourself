@@ -1,0 +1,21 @@
+﻿@using testtesttest.ViewModels
+@model FinishQuestionViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Finish" asp-controller="Question" enctype="multipart/form-data">
+    <div class="px-6 pt-6 my-6 text-center">
+        <input type="hidden" asp-for="testId" id="testId" name="testId" value="@Model.testId" />
+        <h4 class="lead fw-bold">Can be test passed again?</h4>
+        <div class="form-check">
+            <span>Yes</span> @Html.RadioButtonFor(m=> m.ChosenAnswer, "Yes")
+        </div>
+        <div class="form-check">
+            <span>No</span> @Html.RadioButtonFor(m => m.ChosenAnswer, "No")
+        </div>
+        <input type="submit" value="Finish" class="btn btn-danger float-right mt-3" />
+    </div>
+
+</form>

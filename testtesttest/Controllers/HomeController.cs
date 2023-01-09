@@ -37,7 +37,7 @@ namespace testtesttest.Controllers
                 homeViewModel.Country = ipInfo.Country;
                 if (homeViewModel != null)
                 {
-                    homeViewModel.Tests = await _testRepository.GetTestByCity(homeViewModel.City);
+                    homeViewModel.Tests = await _testRepository.GetTestByCountry(homeViewModel.Country);
                 }
                 else
                 {

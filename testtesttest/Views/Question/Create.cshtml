@@ -1,0 +1,41 @@
+﻿@using testtesttest.ViewModels
+@model CreateQuestionVIewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<form method="post" asp-action="Create" asp-controller="Question" enctype="multipart/form-data">
+    <div class="px-6 pt-6 my-6 text-center">
+        <div class="form-group">
+            <input type="hidden" asp-for="testId" id="testId" name="testId" value="@Model.testId" />
+            <input type="hidden" id="CurrentAmountOfQuestions" name="CurrentAmountOfQuestions" asp-for="@Model.CurrentAmountOfQuestions" value="@Model.CurrentAmountOfQuestions" />
+            <div class="row">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label asp-for="Contain" class="control-label">Question</label>
+                        <input asp-for="Contain" class="form-control">
+                        <span asp-validation-for="Contain" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-check">
+                        <span>First Answer <input asp-for="FirstAnswer"></input></span> @Html.RadioButtonFor(m=> m.ChosenAnswer, "FirstAnswer")
+                    </div>
+
+
+                    <div class="form-check">
+                        <span>Second Answer <input asp-for="SecondAnswer"></input></span> @Html.RadioButtonFor(m => m.ChosenAnswer, "SecondAnswer")
+                    </div>
+
+                    <input type="submit" value="Add question" class="btn btn-danger float-right mt-3" />
+                    @if (Model.isFull)
+                    {
+                        <a type="button" asp-controller="Question" asp-route-id="@Model.testId" asp-action="Finish" class="btn btn-danger float-right mt-3">Finish</a>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+</form>

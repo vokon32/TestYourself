@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Mvc;
 using testtesttest.Data;
 using testtesttest.Interfaces;
 using testtesttest.Models;
@@ -61,7 +62,7 @@ namespace testtesttest.Controllers
                     AppUserId = testVM.AppUserId
                 };
                 _testRepository.Add(test);
-                return RedirectToAction("Index");
+                return RedirectToAction("Create", new RouteValueDictionary(new { Controller = "Question", Action = "Create", id = test.Id }));
             }
             else
             {
@@ -144,6 +145,7 @@ namespace testtesttest.Controllers
             _testRepository.Delete(testDetails);
             return RedirectToAction("Index");
         }
+
 
     }
 }

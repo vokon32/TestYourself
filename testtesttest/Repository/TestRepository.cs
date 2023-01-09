@@ -44,10 +44,13 @@ namespace testtesttest.Repository
         {
             return await _context.Tests.AsNoTracking().FirstOrDefaultAsync(t => t.Id == id);
         }
-
-        public async Task<IEnumerable<Test>> GetTestByCity(string city)
+        public async Task<Test> GetQuestionsInTestById(int id)
         {
-            return await _context.Tests.Where(c => c.AppUser.City.Contains(city)).ToListAsync();
+            return await _context.Tests.Include(t => t.Questions).Where(t => t.Id == id).FirstOrDefaultAsync();
+        }
+        public async Task<IEnumerable<Test>> GetTestByCountry(string country)
+        {
+            return await _context.Tests.Where(c => c.AppUser.State.Contains(country)).ToListAsync();
         }
 
         public bool Save()

@@ -13,6 +13,7 @@ namespace testtesttest.Interfaces
         Task<TestResult> GetByIdAsync(int id);
         Task<TestResult> GetByIdAsyncNoTracking(int id);
         Task<TestResult> GetByTestIdAndUserIdAsNoTracking(int testId, string userId);
+        Task<IEnumerable<TestResult>> GetAllTestResultsByUserId(string Id);
         bool Add(TestResult test);
         bool Update(TestResult test);
         bool Delete(TestResult test);

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using testtesttest.Data;
 
@@ -11,9 +12,10 @@ using testtesttest.Data;
 namespace testtesttest.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230106130632_RemovenullableTestfromTestResults")]
+    partial class RemovenullableTestfromTestResults
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,9 +293,6 @@ namespace testtesttest.Migrations
                     b.Property<string>("AppUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<bool>("CanBePassedAgain")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -311,9 +310,6 @@ namespace testtesttest.Migrations
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isPassed")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("questionsAmount")
                         .HasColumnType("int");
@@ -335,10 +331,16 @@ namespace testtesttest.Migrations
 
                     b.Property<string>("AppUserId")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AppUserResult")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<double>("FinalScore")
                         .HasColumnType("float");
+
+                    b.Property<int>("Tests")
+                        .HasColumnType("int");
 
                     b.Property<bool>("isPassed")
                         .HasColumnType("bit");
@@ -348,9 +350,9 @@ namespace testtesttest.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserResult");
 
-                    b.HasIndex("testId");
+                    b.HasIndex("Tests");
 
                     b.ToTable("TestResults");
                 });
@@ -436,13 +438,11 @@ namespace testtesttest.Migrations
                 {
                     b.HasOne("testtesttest.Models.AppUser", "AppUser")
                         .WithMany("TestResults")
-                        .HasForeignKey("AppUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AppUserResult");
 
                     b.HasOne("testtesttest.Models.Test", "Test")
                         .WithMany("TestResults")
-                        .HasForeignKey("testId")
+                        .HasForeignKey("Tests")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -60,5 +60,10 @@ namespace testtesttest.Repository
             _context.Update(test);
             return Save();
         }
+
+        public async Task<IEnumerable<TestResult>> GetAllTestResultsByUserId(string Id)
+        {
+            return await _context.TestResults.AsNoTracking().Include(t => t.Test).Where(t => t.AppUserId == Id).ToListAsync();
+        }
     }
 }

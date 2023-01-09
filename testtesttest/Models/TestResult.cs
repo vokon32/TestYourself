@@ -11,13 +11,9 @@ namespace testtesttest.Models
     {
         public int Id { get; set; }
         public int testId { get; set; }
-        [ForeignKey("Tests")]
-        public Test? Test { get; set; }
+        public Test Test { get; set; }
         public string AppUserId { get; set; }
-        [ForeignKey("AppUserResult")]
         public AppUser? AppUser { get; set; }
-        public int QuestionId { get; set; }
-        public Question? Question { get; set; }
         public double FinalScore { get; set; }
         public bool isPassed { get; set; }
     }
