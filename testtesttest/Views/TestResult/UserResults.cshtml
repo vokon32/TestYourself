@@ -1,0 +1,52 @@
+﻿@model List<TestResult>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<section class="flush-with-above">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table table-hover align-items-center table-borderless">
+                    <tbody>
+                        @foreach (var testResult in Model)
+                        {
+                            <tr class="bg-white">
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <img alt="Image profile avatar" src="@testResult.Test.Image" class="avatar" height="50" width="50">
+                                        <div class="media-body">
+                                            <span class="h6 mb-0">@testResult.Test.TestCategory</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th scope="row">
+                                    <div class="media align-items-center">
+                                        <div class="media-body">
+                                            <span class="h6 mb-0">@testResult.Test.Title</span>
+                                        </div>
+                                    </div>
+                                </th>
+                                <td>
+                                    <a class="btn btn-outline-primary" asp-controller="Test" asp-action="Detail" asp-route-id="@testResult.Test.Id">
+                                        View Test
+                                    </a>
+                                </td>
+
+                                <td>@testResult.FinalScore%</td>
+                            </tr>
+                            <tr class="table-divider">
+                                <th></th>
+                                <td></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!--end of col-->
+        </div>
+        <!--end of row-->
+    </div>
+    <!--end of container-->
+</section>
