@@ -216,7 +216,7 @@ namespace testtesttest.Data
                 {
                     var newAdminUser = new AppUser()
                     {
-                        UserName = "teddysmithdev",
+                        UserName = "admin",
                         Email = adminUserEmail,
                         EmailConfirmed = true
                     };
