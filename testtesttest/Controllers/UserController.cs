@@ -33,6 +33,7 @@ namespace testtesttest.Controllers
             return View(result);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
             var user = await _userRepository.GetUserById(id);

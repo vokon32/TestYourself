@@ -20,6 +20,7 @@ namespace testtesttest.Controllers
             _testRepository = testRepository;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(int id)
         {
             try
@@ -31,7 +32,7 @@ namespace testtesttest.Controllers
                     return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
                 }
             }
-            catch(Exception ex) { }
+            catch(Exception) { }
 
             var question = await _questionRepository.GetFirstQuestion(id);
             var questionVM = new QuestionAnswerViewModel()
@@ -44,8 +45,10 @@ namespace testtesttest.Controllers
                 testId = id,
                 CurrentIndex = 0
             };
+          
             return View(questionVM);
         }
+        
         [HttpPost]
         public async Task<IActionResult> Index(QuestionAnswerViewModel questionVM)
         {
@@ -70,8 +73,6 @@ namespace testtesttest.Controllers
                         isPassed = true
                     };
                     _testResultRepository.Add(testResult);
-
-
                     return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
                 }
                 catch
@@ -83,15 +84,11 @@ namespace testtesttest.Controllers
                         isPassed = true
                     };
                     _testResultRepository.Add(testResult);
-
-
                     return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "TestResult", Action = "Index", Id = testResult.Id }));
                 }
             }
-
             questionVM.CurrentIndex++;
             var question = questionVM.Questions[questionVM.CurrentIndex];
-
             var nextQuestionVM = new QuestionAnswerViewModel()
             {
                 Id = question.Id,
@@ -114,7 +111,8 @@ namespace testtesttest.Controllers
             return View(nextQuestionVM);
         }
 
-        public async Task<IActionResult> Create(int id)
+        [HttpGet]
+        public IActionResult Create(int id)
         {
             var createQuestionVM = new CreateQuestionVIewModel()
             {
@@ -160,7 +158,8 @@ namespace testtesttest.Controllers
             return View(createQuestionVM);
         }
 
-        public async Task<IActionResult> Finish(int id)
+        [HttpGet]
+        public IActionResult Finish(int id)
         {
             var finish = new FinishQuestionViewModel()
             {
@@ -168,6 +167,7 @@ namespace testtesttest.Controllers
             };
             return View(finish);
         }
+        
         [HttpPost]
         public async Task<IActionResult> Finish(FinishQuestionViewModel finishQuestionVM)
         {

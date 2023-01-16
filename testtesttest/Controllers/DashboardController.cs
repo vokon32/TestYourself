@@ -10,23 +10,23 @@ namespace testtesttest.Controllers
     public class DashboardController : Controller
     {
         private readonly IDashboardRepository _dashboardRepository;
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IPhotoService _photoService;
 
-        public DashboardController(IDashboardRepository dashboardRepository, IHttpContextAccessor httpContextAccessor,
+        public DashboardController(IDashboardRepository dashboardRepository,
             IPhotoService photoService)
         {
             _dashboardRepository = dashboardRepository;
-            _httpContextAccessor = httpContextAccessor;
             _photoService = photoService;
         }
-        private void MapUserEdit(AppUser user, EditUserDashboardViewModel editVM, ImageUploadResult photoResult)
+        private static void MapUserEdit(AppUser user, EditUserDashboardViewModel editVM, ImageUploadResult photoResult)
         {
             user.Id = editVM.Id;
             user.ProfileImageUrl = photoResult.Url.ToString();
             user.City = editVM.City;
             user.State = editVM.State;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userTests = await _dashboardRepository.GetAllUserTests();
@@ -36,10 +36,10 @@ namespace testtesttest.Controllers
             };
             return View(dashboardVM);
         }
-
+        [HttpGet]
         public async Task<IActionResult> EditUserProfile()
         {
-            var curUserId = _httpContextAccessor.HttpContext.User.GetUserId();
+            var curUserId = User.GetUserId();
             var user = await _dashboardRepository.GetUserById(curUserId);
             if (user == null) return View("Error");
             var editUserVM = new EditUserDashboardViewModel()

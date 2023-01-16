@@ -11,9 +11,9 @@ namespace testtesttest.Data
         {
 
         }
-        public DbSet<Test> Tests { get; set; }
-        public DbSet<Question> Questions { get; set; }
-        public DbSet<TestResult> TestResults { get; set; }
+        public DbSet<Test> Tests { get; set; } = null!;
+        public DbSet<Question> Questions { get; set; } = null!;
+        public DbSet<TestResult> TestResults { get; set; } = null!;
 
     }
 }

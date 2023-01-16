@@ -10,14 +10,14 @@ namespace testtesttest.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
-        private readonly ApplicationDbContext _context;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager, ApplicationDbContext context)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signinManager)
         {
             _userManager = userManager;
             _signInManager = signinManager;
-            _context = context;
         }
+        
+        [HttpGet]
         public IActionResult Login()
         {
             var response = new LoginViewModel();
@@ -48,6 +48,7 @@ namespace testtesttest.Controllers
             return View(loginVM);
         }
 
+        [HttpGet]
         public IActionResult Register()
         {
             var response = new RegisterViewModel();
@@ -73,9 +74,15 @@ namespace testtesttest.Controllers
             if (newUserResponse.Succeeded)
             {
                 await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+                var result = await _signInManager.PasswordSignInAsync(newUser, registerVM.Password, false, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Test");
+                }
             }
             return RedirectToAction("Index", "Test");
         }
+       
         [HttpPost]
         public async Task<IActionResult> Logout()
         {

@@ -12,31 +12,33 @@ namespace testtesttest.Controllers
         private readonly ITestRepository _testRepository;
 
         private readonly IPhotoService _photoService;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public TestController(ITestRepository testRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
+        public TestController(ITestRepository testRepository, IPhotoService photoService)
         {
             _testRepository = testRepository;
             _photoService = photoService;
-            _httpContextAccessor = httpContextAccessor;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Test> tests = await _testRepository.GetAll();
             return View(tests);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Detail(int id)
         {
             Test test = await _testRepository.GetByIdAsync(id);
             return View(test);
         }
         [HttpPost, ActionName("Detail")]
-        public async Task<IActionResult> DetailCheck(int id )
+        public IActionResult DetailCheck(int id )
         {
             return RedirectToAction("Index", "Question", id);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             var curUserId = User.GetUserId();
@@ -71,6 +73,7 @@ namespace testtesttest.Controllers
             return View(testVM);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var curUserId = User.GetUserId();

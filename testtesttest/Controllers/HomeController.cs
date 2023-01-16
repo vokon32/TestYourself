@@ -22,6 +22,7 @@ namespace testtesttest.Controllers
             _testRepository = testRepository;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             var ipInfo = new IPInfo();

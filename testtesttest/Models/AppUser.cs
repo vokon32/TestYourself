@@ -15,7 +15,7 @@ namespace testtesttest.Models
         public string? City { get; set; }
         public string? State { get; set; }
         public ICollection<Test>? Tests { get; set; }
-        public List<TestResult> TestResults { get; set; }
+        public List<TestResult>? TestResults { get; set; }
 
     }
 }

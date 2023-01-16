@@ -11,11 +11,15 @@ namespace testtesttest.Controllers
         {
             _testResultRepository = testResultRepository;
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index(int Id)
         {
             var test = await _testResultRepository.GetByIdAsync(Id);
             return View(test);
         }
+
+        [HttpGet]
         public async Task<IActionResult> Again(int Id)
         {
             var curUserId = User.GetUserId();
@@ -26,6 +30,8 @@ namespace testtesttest.Controllers
             }
             return RedirectToAction("Index", new RouteValueDictionary(new { Controller = "Question", Action = "Index", Id = Id }));
         }
+
+        [HttpGet]
         public async Task<IActionResult> UserResults()
         {
             var curUserId = User.GetUserId();
